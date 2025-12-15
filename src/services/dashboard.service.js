@@ -4,13 +4,20 @@ import cardRepository from '../repositories/card.repository.js';
 import invoiceRepository from '../repositories/invoice.repository.js';
 
 class DashboardService {
+  constructor(companyRepo, transactionRepo, cardRepo, invoiceRepo) {
+    this.companyRepository = companyRepo;
+    this.transactionRepository = transactionRepo;
+    this.cardRepository = cardRepo;
+    this.invoiceRepository = invoiceRepo;
+  }
+
   async getDashboardData(companyId) {
     const [company, remainingSpend, latestTransactions, cards, upcomingInvoices] = await Promise.all([
-      companyRepository.findById(companyId),
-      companyRepository.getRemainingSpend(companyId),
-      transactionRepository.getLatestTransactions(companyId, 3),
-      cardRepository.getCardsByCompany(companyId),
-      invoiceRepository.getUpcomingInvoices(companyId),
+      this.companyRepository.findById(companyId),
+      this.companyRepository.getRemainingSpend(companyId),
+      this.transactionRepository.getLatestTransactions(companyId, 3),
+      this.cardRepository.getCardsByCompany(companyId),
+      this.invoiceRepository.getUpcomingInvoices(companyId),
     ]);
 
     return {
@@ -39,13 +46,13 @@ class DashboardService {
   }
 
   async activateCard(cardId) {
-    return await cardRepository.activateCard(cardId);
+    return await this.cardRepository.activateCard(cardId);
   }
 
   async getTransactionHistory(companyId, page = 1, limit = 10) {
     const offset = (page - 1) * limit;
-    const transactions = await transactionRepository.getTransactionsByCompany(companyId, limit, offset);
-    const total = await transactionRepository.count({ where: { companyId } });
+    const transactions = await this.transactionRepository.getTransactionsByCompany(companyId, limit, offset);
+    const total = await this.transactionRepository.count({ where: { companyId } });
 
     return {
       transactions: transactions.map(t => ({
@@ -66,4 +73,13 @@ class DashboardService {
   }
 }
 
-export default new DashboardService();
+// Create and export instance with injected dependencies
+const dashboardService = new DashboardService(
+  companyRepository,
+  transactionRepository,
+  cardRepository,
+  invoiceRepository
+);
+
+export default dashboardService;
+export { DashboardService }; // Export class for testing
