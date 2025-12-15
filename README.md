@@ -37,7 +37,7 @@ npm run setup
 
 ## Architecture & Design
 
-This project follows a **Layered Architecture** pattern with clean separation of concerns and dependency injection.
+This project follows a **Layered Architecture** pattern, A Backend For A Frontend (BFF) Architecture Pattern
 
 ### Architectural Overview
 
