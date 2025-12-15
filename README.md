@@ -1,4 +1,4 @@
-# Qred Dashboard API
+# Dashboard API
 
 A REST API for managing company dashboards with cards, transactions, and invoices.
 
