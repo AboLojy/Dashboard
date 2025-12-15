@@ -1,0 +1,51 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/AboLojy/dashboard#readme",
+  "bugs": {
+    "url": "https://github.com/AboLojy/dashboard/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AboLojy/dashboard.git"
+  },
+  "license": "ISC",
+  "author": "Amr Reda",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test src/tests/**/*.test.js",
+    "test:unit": "node --test src/tests/services/**/*.test.js src/tests/controllers/**/*.test.js",
+    "test:integration": "node --test src/tests/integration/**/*.test.js",
+    "test:watch": "node --test --watch src/tests/**/*.test.js",
+    "test:coverage": "node --test --experimental-test-coverage src/tests/**/*.test.js",
+    "dev": "node --watch --env-file=.env src/index.js",
+    "start": "node --env-file=.env src/index.js",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "migrate:test": "NODE_ENV=test npx sequelize-cli db:migrate",
+    "seed": "npx sequelize-cli db:seed:all",
+    "seed:undo": "npx sequelize-cli db:seed:undo:all",
+    "seed:test": "NODE_ENV=test npx sequelize-cli db:seed:all",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:reset": "docker-compose down -v && docker-compose up -d",
+    "setup": "npm run docker:up && timeout /t 10 && npm run migrate && npm run seed",
+    "setup:test": "npm run docker:up && timeout /t 10 && npm run migrate:test && npm run seed:test"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.2.1",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.5",
+    "uuid": "^11.0.3"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.2"
+  }
+}
