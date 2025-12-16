@@ -380,7 +380,6 @@ app.use((error, req, res, next) => {
 
 **Cons:**
 - More boilerplate code than simpler architectures
-- Learning curve for developers new to layered architecture
 - Potentially over-engineered for very simple applications
 
 ## Database Schema
